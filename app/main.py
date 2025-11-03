@@ -1,11 +1,9 @@
 def copy_file(command: str) -> None:
-    parts = command.split()
-    if len(parts) != 3 or parts[0] != "cp":
+    if len(command.split()) != 3:
         return
 
-    input_name, output_name = parts[1], parts[2]
-
-    if input_name == output_name:
+    cmd, input_name, output_name = command.split()
+    if cmd != "cp" or input_name == output_name:
         return
 
     try:
@@ -13,5 +11,5 @@ def copy_file(command: str) -> None:
               open(output_name, "w") as file_out):
             for line in file_in:
                 file_out.write(line)
-    except Exception as e:
-        print("Exception:", e)
+    except FileNotFoundError as e:
+        print("File not found:", e)
